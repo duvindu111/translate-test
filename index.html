@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Translate Example</title>
+    <style>
+        #google_translate_element {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Google Translate Integration Example</h1>
+    
+    <!-- Google Translate Element -->
+    <div id="google_translate_element"></div>
+
+    <!-- Language Change Buttons -->
+    <button onclick="handleLanguageChange('en')">English</button>
+    <button onclick="handleLanguageChange('es')">Spanish</button>
+    <button onclick="handleLanguageChange('fr')">French</button>
+    <button onclick="handleLanguageChange('si')">Sinhala</button>
+
+    <script>
+        // Function to add Google Translate script
+        function addGoogleTranslate() {
+            const googleTranslateScript = document.createElement('script');
+            googleTranslateScript.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+            googleTranslateScript.async = true;
+            document.body.appendChild(googleTranslateScript);
+
+            window.googleTranslateElementInit = function () {
+                new window.google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+            };
+        }
+
+        // Function to handle language change
+        function handleLanguageChange(languageCode) {
+            if (languageCode === 'en') {
+                document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+                window.location.reload();
+            } else {
+                const selectField = document.querySelectorAll(".goog-te-combo");
+                selectField.forEach(function (field, index) {
+                        field.value = languageCode;
+                        field.dispatchEvent(new Event("change"));
+                    
+                });
+            }
+        }
+
+        // Load Google Translate when the page loads
+        window.onload = addGoogleTranslate;
+    </script>
+</body>
+</html>
